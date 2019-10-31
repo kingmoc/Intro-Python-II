@@ -38,21 +38,6 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-# Test Area
-
-# room['outside'].items = [Item("rope", "used to tie other items together"),Item("horn", "used to call for danger")]
-# print(room['outside'].items)
-# print("------before--------") 
-# room['outside'].add_item(Items("random", "I need to test this item has been added"))
-# Items("random", "I need to test this item has been added"), Items("test", "Test description")
-# room['outside'].add_item()
-# for item in room['outside'].items:
-#     print(item.name)
-# # print("------after--------") 
-
-
-
-
 #
 # Main
 #
@@ -61,23 +46,25 @@ room['treasure'].s_to = room['narrow']
 
 player = Player("JoeyG.", room['outside'])
 
-"""
-room['outside'].add_item(Items("random", "I need to test this item has been added"))
-print(room['outside'].items, "Item Added")
-room['outside'].remove_item(Items("random", "I need to test this item has been added"))
-print(room['outside'].items, "Item Removed")
-"""
-
-
-# print(type(room['outside'].items), "In Main")
-# print(room['outside'].items, "Current")
-
-# room['outside'].remove_item(Items("random", "I need to test this item has been added"))
-# print(room['outside'].items)
+def get_directions(the_rm):
+    dir = []
+    if player.current_room.n_to:
+        dir.append('n')
+    if player.current_room.w_to:
+        dir.append('w')
+    if player.current_room.e_to:
+        dir.append('e')
+    if player.current_room.s_to:
+        dir.append('s')
+    d = ", ".join(dir)
+    dir = f"You can go: {d}"
+    return dir
 
 class MyPrompt(Cmd):
     prompt = 'Old House> '
     intro = "Welcome! Type ? to list commands"
+
+    print(get_directions(player.current_room))
 
     def do_hello(self, inp):
         print(f"Hi {player.name} {player.current_room.name}")
@@ -93,6 +80,7 @@ class MyPrompt(Cmd):
 
         for i, item in enumerate(player.items, start = 1):
             print(f"{i}: {item.name} - {item.description}")
+        print('\n')
 
     def do_get(self, inp):
         print(f"Grabbing {inp} ...\n")
@@ -126,6 +114,7 @@ class MyPrompt(Cmd):
         else:
             print(player.current_room.n_to)
             player.current_room = player.current_room.n_to
+        print(get_directions(player.current_room), '\n')
     
     def do_s(self, inp):
         if not player.current_room.s_to:
@@ -133,6 +122,7 @@ class MyPrompt(Cmd):
         else:
             print(player.current_room.s_to)
             player.current_room = player.current_room.s_to
+        print(get_directions(player.current_room), '\n')
 
     def do_e(self, inp):
         if not player.current_room.e_to:
@@ -140,6 +130,7 @@ class MyPrompt(Cmd):
         else:
             print(player.current_room.e_to)
             player.current_room = player.current_room.e_to
+        print(get_directions(player.current_room), '\n')
 
     def do_w(self, inp):
         if not player.current_room.w_to:
@@ -147,6 +138,7 @@ class MyPrompt(Cmd):
         else:
             print(player.current_room.w_to)
             player.current_room = player.current_room.w_to
+        print(get_directions(player.current_room), '\n')
 
     def do_q(self, inp):
         print("Thanks for playing")
@@ -155,13 +147,3 @@ class MyPrompt(Cmd):
 if __name__ == '__main__':
     MyPrompt().cmdloop()
 
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.

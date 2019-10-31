@@ -1,6 +1,3 @@
-# Implement a class to hold room information. This should have name and
-# description attributes.
-
 class Room:
     def __init__(self, name, description, items, n_to={}, s_to={}, w_to={}, e_to={}):
         self.name = name
@@ -15,7 +12,6 @@ class Room:
         self.items.append(newItem)
 
     def remove_item(self, item):
-        # print("got here")
         self.items.remove(item)
 
     def __str__(self):

@@ -1,0 +1,10 @@
+s_to=object, w_to=object, e_to=object -- did not work
+
+
+        print(item, "Item to Add")
+        print(type(item), "Type")
+        print(item[0].name, "First arg")
+        print(type(item[0]), "Type of Arg")
+        print("-----------------------------")
+
+had to use print on the on_take and on_drop methods
